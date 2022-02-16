@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-
+from sklearn.preprocessing import StandardScaler
 #import data change the path to your file
 data =pd.read_excel("C:\\Users\\zhang\\OneDrive\\桌面\\Concrete_Data.xls")
 
@@ -10,11 +10,10 @@ test = np.array(data[900:])
 Xtrain, Ytrain = train[:, :-1], train[:, -1]
 Xtest, Ytest = test[:, :-1], test[:, -1]
 
+scaler = StandardScaler()
+#Xtrain= scaler.fit_transform(Xtrain)
+#Xtest= scaler.fit_transform(Xtest)
 
-#Normalize the data
-def feature_normalize(x):
-    x=(x-np.min(x))/2
-    return x
 
 def variance(x):
     xm=np.mean(x)
@@ -34,9 +33,7 @@ def MSE(X, w, b, y):
         sum += diff**2
     return sum/n
 
-#normalize the data
-#Xtrain=feature_normalize(Xtrain)
-#Xtest=feature_normalize(Xtest)
+
 
 def GradientDescent(x, y, w, b, learning_rate, epochs):
     for epoch in range(epochs):
@@ -55,6 +52,8 @@ def GradientDescent(x, y, w, b, learning_rate, epochs):
 w, b= GradientDescent(Xtrain, Ytrain, np.zeros(Xtrain.shape[1]), 0, 0.000001,epochs=22000)
 mse_train=MSE(Xtrain, w, b, Ytrain)
 mse_test=MSE(Xtest, w, b, Ytest)
+print(w)
+print(b)
 print('variance_train',1-mse_train/variance(Ytrain))
 print('variance_test',1-mse_test/variance(Ytest))
 print('mse_train :',mse_train,'mse_test :',mse_test)

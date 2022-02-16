@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from sklearn.preprocessing import StandardScaler
 #import data change the path to your file
 data =pd.read_excel("C:\\Users\\zhang\\OneDrive\\桌面\\Concrete_Data.xls")
 
@@ -17,6 +18,8 @@ train = np.array(data[:900])
 test = np.array(data[900:])
 Xtrain, Ytrain = train[:, :-1], train[:, -1]
 Xtest, Ytest = test[:, :-1], test[:, -1]
+
+
 def uni_linear(m,b,x,y,lr):
     Dm = 0
     Db = 0
@@ -39,7 +42,7 @@ def variance(x):
     return total/n
 
 def feature_normalize(x):
-    x=(x-np.min(x))/100
+    x=(x-np.mean(x))/np.max(x)
     return x
 
 def plot(m,b,x,y):
@@ -56,32 +59,33 @@ def MSE(m,b,x,y):
         sum += diff**2
     return sum/n
 
-Xtrain=feature_normalize(Xtrain)
-plt.hist(Xtrain, density=True);
-plt.title('normalize_Train')
-plt.show()
-Xtest=feature_normalize(Xtest)
-plt.hist(Xtest, density=True);
-plt.title('normalize_Test')
-plt.show()
+#plt.title('Before')
+#plt.hist(Xtrain)
+#plt.hist(Xtest)
+#plt.show()
+
+scaler = StandardScaler()
+#Xtrain= scaler.fit_transform(Xtrain)
+#Xtest= scaler.fit_transform(Xtest)
+#plt.hist(Xtrain)
+#plt.hist(Xtest)
+#plt.title('After')
+#plt.show()
+
 for feature, featurename in enumerate(columns[:-1]):
     print(feature+1,featurename)
     x_train = Xtrain[:, feature]
     x_test = Xtest[:, feature]
-    
-    #data normalize
-    #x_train=feature_normalize(x_train)
-    #x_test=feature_normalize(x_test)
+
+
     m=uni_linear(0,0,x_train,Ytrain,0.000001)
-    print('m :',m[0],'b :',m[1])
+    print('m :',m[0])
+    print('b :',m[1])
     mtrain=MSE(m[0],m[1],x_train,Ytrain)
     mtest=MSE(m[0],m[1],x_test,Ytest)
     print('mse_train :',mtrain)
     print('mse_test :',mtest)
     print('variance_train',1-mtrain/variance(Ytrain))
     print('variance_test',1-mtest/variance(Ytest))
-    
-    print(variance(x_train))
-    print(variance(x_test))
 #    plt.title(featurename)
 #    plot(m[0],m[1],x_train,Ytrain)
