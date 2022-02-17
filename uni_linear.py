@@ -29,7 +29,7 @@ def uni_linear(m,b,x,y,lr):
         Dm = (-2/n) * sum(x * (y - ypred)) 
         Db = (-2/n) * sum(y - ypred)  
         m =m-  lr * Dm  
-        b =m-  lr * Db
+        b =b-  lr * Db
     return m,b
 
 def variance(x):
@@ -77,7 +77,7 @@ for feature, featurename in enumerate(columns[:-1]):
     x_train = Xtrain[:, feature]
     x_test = Xtest[:, feature]
 
-
+#berfore normalzation: learning rate is 0.000001, m=b=0.  after normalzation learning rate =0.1 m=b=5
     m=uni_linear(0,0,x_train,Ytrain,0.000001)
     print('m :',m[0])
     print('b :',m[1])
@@ -87,5 +87,7 @@ for feature, featurename in enumerate(columns[:-1]):
     print('mse_test :',mtest)
     print('variance_train',1-mtrain/variance(Ytrain))
     print('variance_test',1-mtest/variance(Ytest))
-#    plt.title(featurename)
-#    plot(m[0],m[1],x_train,Ytrain)
+    plt.title(featurename)
+    plt.xlabel(featurename)
+    plt.ylabel("Concrete compressive strengt")
+    plot(m[0],m[1],x_train,Ytrain)

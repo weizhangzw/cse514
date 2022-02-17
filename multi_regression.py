@@ -11,6 +11,7 @@ Xtrain, Ytrain = train[:, :-1], train[:, -1]
 Xtest, Ytest = test[:, :-1], test[:, -1]
 
 scaler = StandardScaler()
+#normalization 
 #Xtrain= scaler.fit_transform(Xtrain)
 #Xtest= scaler.fit_transform(Xtest)
 
@@ -48,12 +49,10 @@ def GradientDescent(x, y, w, b, learning_rate, epochs):
   
         
     return w, b
-
-w, b= GradientDescent(Xtrain, Ytrain, np.zeros(Xtrain.shape[1]), 0, 0.000001,epochs=22000)
+#berfore normalzation: learning rate is 0.000001, w=0.  after normalzation learning rate =0.1 
+w, b= GradientDescent(Xtrain, Ytrain, np.zeros(Xtrain.shape[1]), 0, 0.1,epochs=22000)
 mse_train=MSE(Xtrain, w, b, Ytrain)
 mse_test=MSE(Xtest, w, b, Ytest)
-print(w)
-print(b)
 print('variance_train',1-mse_train/variance(Ytrain))
 print('variance_test',1-mse_test/variance(Ytest))
 print('mse_train :',mse_train,'mse_test :',mse_test)
