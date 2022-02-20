@@ -12,8 +12,8 @@ Xtest, Ytest = test[:, :-1], test[:, -1]
 
 scaler = StandardScaler()
 #normalization 
-#Xtrain= scaler.fit_transform(Xtrain)
-#Xtest= scaler.fit_transform(Xtest)
+Xtrain= scaler.fit_transform(Xtrain)
+Xtest= scaler.fit_transform(Xtest)
 
 
 def variance(x):
@@ -36,23 +36,24 @@ def MSE(X, w, b, y):
 
 
 
-def GradientDescent(x, y, w, b, learning_rate, epochs):
+def GradientDescent(x, y, m, b, learning_rate, epochs):
     for epoch in range(epochs):
-        ypred = x.dot(w) + b
+        ypred = x.dot(m) + b
         loss = ypred - y
         
-        weight_gradient = x.T.dot(loss) / len(y)
-        bias_gradient = np.sum(loss) / len(y)
+        Dm = x.T.dot(loss) / len(y)
+        Db = np.sum(loss) / len(y)
         
-        w = w - learning_rate*weight_gradient
-        b = b - learning_rate*bias_gradient
+        m = m - learning_rate*Dm
+        b = b - learning_rate*Db
   
         
-    return w, b
-#berfore normalzation: learning rate is 0.000001, w=0.  after normalzation learning rate =0.1 
-w, b= GradientDescent(Xtrain, Ytrain, np.zeros(Xtrain.shape[1]), 0, 0.1,epochs=22000)
-mse_train=MSE(Xtrain, w, b, Ytrain)
-mse_test=MSE(Xtest, w, b, Ytest)
+    return m, b
+#berfore normalzation: learning rate is 0.000001, m=0.  after normalzation learning rate =0.1 
+m, b= GradientDescent(Xtrain, Ytrain, np.zeros(Xtrain.shape[1]), 5, 0.1,epochs=22000)
+mse_train=MSE(Xtrain, m, b, Ytrain)
+mse_test=MSE(Xtest, m, b, Ytest)
+print(m)
 print('variance_train',1-mse_train/variance(Ytrain))
 print('variance_test',1-mse_test/variance(Ytest))
 print('mse_train :',mse_train,'mse_test :',mse_test)
