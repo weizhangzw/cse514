@@ -65,8 +65,8 @@ def MSE(m,b,x,y):
 #plt.show()
 
 scaler = StandardScaler()
-#Xtrain= scaler.fit_transform(Xtrain)
-#Xtest= scaler.fit_transform(Xtest)
+Xtrain= scaler.fit_transform(Xtrain)
+Xtest= scaler.fit_transform(Xtest)
 #plt.hist(Xtrain)
 #plt.hist(Xtest)
 #plt.title('After')
@@ -77,8 +77,8 @@ for feature, featurename in enumerate(columns[:-1]):
     x_train = Xtrain[:, feature]
     x_test = Xtest[:, feature]
 
-#berfore normalzation: learning rate is 0.000001, m=b=0.  after normalzation learning rate =0.1 m=b=5
-    m=uni_linear(0,0,x_train,Ytrain,0.000001)
+#berfore normalzation: learning rate is 0.000001, m=0,b=30.  after normalzation learning rate =0.1 m=b=5
+    m=uni_linear(0,30,x_train,Ytrain,0.000001)
     print('m :',m[0])
     print('b :',m[1])
     mtrain=MSE(m[0],m[1],x_train,Ytrain)
@@ -87,7 +87,7 @@ for feature, featurename in enumerate(columns[:-1]):
     print('mse_test :',mtest)
     print('variance_train',1-mtrain/variance(Ytrain))
     print('variance_test',1-mtest/variance(Ytest))
-    plt.title(featurename)
-    plt.xlabel(featurename)
-    plt.ylabel("Concrete compressive strengt")
-    plot(m[0],m[1],x_train,Ytrain)
+    #plt.title(featurename)
+    #plt.xlabel(featurename)
+    #plt.ylabel("Concrete compressive strengt")
+    #plot(m[0],m[1],x_train,Ytrain)
