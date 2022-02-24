@@ -1,8 +1,10 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+import os
 #import data change the path to your file
-data =pd.read_excel("C:\\Users\\zhang\\OneDrive\\桌面\\Concrete_Data.xls")
+path = input("enter filepath: ")
+data =pd.read_excel(path)
 
 columns = data.columns
 train = np.array(data[:900])
